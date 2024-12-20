@@ -34,7 +34,8 @@ import gradio as gr
 # เปลี่ยนการอ้างอิงพาธ /content/CPM_graph.png เป็นพาธที่อิงโฟลเดอร์โปรเจกต์ปัจจุบัน
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
-output_file_path = os.path.join(current_directory, "CPM_graph.png")
+
+output_file_path_crash = os.path.join(current_directory, "CPM_graph_crashed.png")
 
 def MERG_PDF(pdf1=None, pdf2=None ,pdf3=None):
   pdf1File = open(pdf1, 'rb')
@@ -486,11 +487,13 @@ def run_program(csv_file, indirect_cost):
   DRAW(df) # เรียกใช้ฟังก์ชัน DRAW
   plt.savefig('CPM_graph.png')  # บันทึกรูปภาพ DRAW
   plt.show()
+    
+  output_file_path_CPM = os.path.join(current_directory, "CPM_graph.png")
 
   # เรียกใช้ฟังก์ชัน create_pdf_report
   create_pdf_report("CPM_report.pdf"
   , df
-  , image_path='/content/CPM_graph.png'
+  , image_path= output_file_path_CPM
   , header_text="DATA FOR CRASHING"
   , critical_text= CPM_line
   , path_duration= critical_path_duration
@@ -512,10 +515,12 @@ def run_program(csv_file, indirect_cost):
   df_best_option.to_csv('Best_option_result.csv', index=False)
   crashing_round.to_csv('CRASH_TABLLE.csv', index=False)
 
+  output_file_path_crash = os.path.join(current_directory, "CPM_graph_crashed.png")
+    
   # เรียกใช้ฟังก์ชัน create_pdf_report
   create_pdf_report("Best_option_report.pdf"
   , df_best_option
-  , image_path= '/content/CPM_graph_crashed.png'
+  , image_path= output_file_path_crash
   , critical_text= CPM_line2
   , header_text="RESUIL FROM CRASHING"
   , path_duration= (df_best_option[df_best_option['CPM'] == 'YES'])['New crash duration'].sum()
