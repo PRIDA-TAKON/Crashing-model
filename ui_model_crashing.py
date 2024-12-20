@@ -307,7 +307,7 @@ def DRAW(df):
         for predecessor in predecessors:
             G.add_edge(predecessor, activity, duration=duration)  # กำหนด duration เป็น weight
     # 4. แสดงกราฟพร้อม Critical Path
-    pos = nx.kamada_kawai_layout(G, scale=5)  # ปรับแต่งพารามิเตอร์
+    pos = nx.planar_layout(G)   # ปรับแต่งพารามิเตอร์
 
     # สีโหนด
     node_colors =  ['red' if node in critical_path or node == 'END' else 'lightblue' for node in G.nodes()]
@@ -319,7 +319,8 @@ def DRAW(df):
     with_labels=False,
     node_color=node_colors,
     edge_color='gray',
-    arrows=True
+    arrows=True ,
+    arrowsize=20    
   )
     nx.draw_networkx_labels(
     G,
@@ -350,7 +351,7 @@ def DRAW2(df):
         for predecessor in predecessors:
             G.add_edge(predecessor, activity, duration=duration)  # กำหนด duration เป็น weight
     # 4. แสดงกราฟพร้อม Critical Path
-    pos = nx.kamada_kawai_layout(G, scale=5)  # ปรับแต่งพารามิเตอร์
+    pos = nx.planar_layout(G)   # ปรับแต่งพารามิเตอร์
 
     # สีโหนด
     node_colors =  ['red' if node in critical_path or node == 'END' else 'lightblue' for node in G.nodes()]
@@ -362,7 +363,8 @@ def DRAW2(df):
     with_labels=False,
     node_color=node_colors,
     edge_color='gray',
-    arrows=True
+    arrows=True,
+    arrowsize=20
   )
     nx.draw_networkx_labels(
     G,
