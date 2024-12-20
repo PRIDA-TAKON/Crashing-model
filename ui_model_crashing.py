@@ -178,7 +178,7 @@ def create_pdf_report2(filename, df, header_text=None):  # เพิ่ม heade
 def LOAD(file_path):
     global df
     df = pd.read_csv(file_path)
-    display(df)
+
 
 def CPM(dfa):
   global df
@@ -239,7 +239,7 @@ def CPM(dfa):
   global df_normal
   df_normal = df
   # แสดงผล
-  display(df)
+
 
 def CPM2(dfa):
   global df
@@ -462,8 +462,6 @@ def add_crashing_row(crashing_round, critical_path, days, direct_cost, indirect_
   return crashing_round
 
 # แสดงตาราง
-  display(crashing_round)
-
 # สร้าง UI กำลังพัฒนา
 def run_program(csv_file, indirect_cost):
   """ฟังก์ชันที่ใช้ประมวลผลข้อมูลจาก UI"""
@@ -501,8 +499,7 @@ def run_program(csv_file, indirect_cost):
   limit_crash_time = df['Max_Crashing'].sum(skipna=True)
   DECREASE_CPM2(df,limit_crash_time)
   # crashing เสร็จ
-  display(crashing_round)
-  display(df_best_option)  # ใช้ df_best_option
+
   CPM2(df_best_option)
   #สร้างกราฟ
   plt.figure(figsize=(10, 6))  # กำหนดขนาดรูปภาพ (ปรับตามต้องการ)
