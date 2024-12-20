@@ -553,8 +553,8 @@ with gr.Blocks() as iface:
         outputs=file_output,   # เอาต์พุตที่ได้
     )
 
-# แสดง UI
-iface.launch(debug=True)
+# แสดง UI สำหรับทำงานบน render
+iface.launch(server_port=int(os.getenv("PORT", 7860)))
 
 
 
