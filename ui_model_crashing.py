@@ -529,17 +529,29 @@ def run_program(csv_file, indirect_cost):
 
   return 'merged_report.pdf'  # return พาธของไฟล์ PDF
 
-# สร้าง UI
-iface = gr.Interface(
-    fn=run_program,
-    inputs=[
-        gr.File(label="UPLOAD .CSV"),
-        gr.Number(label="INDIRECT COST PER DAY", precision=0),
-    ],
-    outputs=gr.File(),  # ใช้ gr.File() เพื่อแสดงผลไฟล์
-    title="CPM Analysis",
-    description="Upload your CSV file and get a CPM report.",
-)
+# สร้าง UI โดยใช้ Blocks
+with gr.Blocks() as iface:
+    gr.Markdown("# CPM Analysis")
+    gr.Markdown("Upload your CSV file and provide the indirect cost per day to generate a CPM report.")
+
+    # อัปโหลดไฟล์ CSV
+    file_input = gr.File(label="UPLOAD .CSV", file_types=[".csv"])
+    
+    # รับค่า indirect cost
+    cost_input = gr.Number(label="INDIRECT COST PER DAY", precision=0)
+    
+    # ปุ่มสร้าง PDF
+    generate_button = gr.Button("Generate Report")
+    
+    # แสดงไฟล์ที่ดาวน์โหลด
+    file_output = gr.File(label="Download Report")
+    
+    # กำหนดฟังก์ชันเมื่อคลิกปุ่ม
+    generate_button.click(
+        fn=run_program,        # ฟังก์ชันที่คุณใช้งาน
+        inputs=[file_input, cost_input],  # อินพุตที่ใช้
+        outputs=file_output,   # เอาต์พุตที่ได้
+    )
 
 # แสดง UI
 iface.launch(debug=True)
