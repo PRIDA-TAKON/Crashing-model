@@ -527,10 +527,14 @@ def run_program(csv_file, indirect_cost):
   , result_text4= Over_Head)
 
   create_pdf_report2("Crash_table.pdf",crashing_round, header_text= "CRASH TABLE")
-
-  MERG_PDF(pdf1='/content/CPM_report.pdf'
-    , pdf2='/content/Crash_table.pdf'
-    , pdf3='/content/Best_option_report.pdf')
+    
+  output_file_path_pdf2 = os.path.join(current_directory, "Crash_table.pdf")
+  output_file_path_pdf1 = os.path.join(current_directory, "CPM_report.pdf")
+  output_file_path_pdf3 = os.path.join(current_directory, "Best_option_report.pdf")
+    
+  MERG_PDF(pdf1= output_file_path_pdf1
+    , pdf2= output_file_path_pdf2
+    , pdf3= output_file_path_pdf3)
 
   return 'merged_report.pdf'  # return พาธของไฟล์ PDF
 
