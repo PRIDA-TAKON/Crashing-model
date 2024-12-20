@@ -30,9 +30,11 @@ from reportlab.platypus import Paragraph, Spacer
 import PyPDF2
 # ส่วน UI
 import gradio as gr
-# ยังขาดส่วนการ deploy ขึ้นเว็บ
-# ค่า cost ในตารางยังผิดอยู่ ต้องแก้ แยก direct  กับ cost indirect cost แก้แล้ว
-# pdf หน้าตารางให้ใส่ critical path วัน จำนวนวันที่จะลด ค่า overhed แก้แล้วตามหลักการล่าสุด
+
+# เปลี่ยนการอ้างอิงพาธ /content/CPM_graph.png เป็นพาธที่อิงโฟลเดอร์โปรเจกต์ปัจจุบัน
+
+current_directory = os.path.dirname(os.path.abspath(__file__))
+output_file_path = os.path.join(current_directory, "CPM_graph.png")
 
 def MERG_PDF(pdf1=None, pdf2=None ,pdf3=None):
   pdf1File = open(pdf1, 'rb')
