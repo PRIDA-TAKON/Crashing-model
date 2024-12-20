@@ -542,8 +542,8 @@ def run_program(csv_file, indirect_cost):
 
 # สร้าง UI โดยใช้ Blocks
 with gr.Blocks() as iface:
-    gr.Markdown("# CPM Analysis")
-    gr.Markdown("Upload your CSV file and provide the indirect cost per day to generate a CPM report.")
+    gr.Markdown("# PROJECT CRASHING")
+    gr.Markdown("Upload your CSV file and provide the indirect cost per day to generate a crashing report.")
 
     # อัปโหลดไฟล์ CSV
     file_input = gr.File(label="UPLOAD .CSV", file_types=[".csv"])
