@@ -8,6 +8,7 @@ Original file is located at
 """
 
 # เตรียมเครื่องมือ
+import os
 import pandas as pd
 import spacy
 spacy.cli.download("en_core_web_sm")
