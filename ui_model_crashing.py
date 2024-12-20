@@ -555,7 +555,7 @@ with gr.Blocks() as iface:
     )
 
 # แสดง UI สำหรับทำงานบน render
-iface.launch(server_port=int(os.getenv("PORT", 7860)))
+iface.launch(server_name="0.0.0.0", server_port=int(os.getenv("PORT", 7860)))
 
 
 
