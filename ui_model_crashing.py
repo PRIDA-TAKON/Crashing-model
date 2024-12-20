@@ -8,9 +8,6 @@ Original file is located at
 """
 
 # เตรียมเครื่องมือ
-pip install --upgrade gradio
-pip install reportlab==3.6.12
-pip install PyPDF2==3.0.1
 import pandas as pd
 import spacy
 spacy.cli.download("en_core_web_sm")
