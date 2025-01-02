@@ -8,14 +8,7 @@ Original file is located at
 """
 from setuptools import setup
 
-setup(
-    # ... other options ...
-    install_requires=[
-        'pytest',  # Add your test dependencies here
-        # ...
-    ],
-    # ...
-)
+
 # เตรียมเครื่องมือ
 import os
 import pandas as pd
