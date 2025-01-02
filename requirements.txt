@@ -1,5 +1,5 @@
 graphviz==0.20.1
-pygraphviz
+pygraphviz==1.14
 pytest  # Add your test dependencies here
 gradio==4.44.1
 reportlab==3.6.12
