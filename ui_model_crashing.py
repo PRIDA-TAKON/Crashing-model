@@ -292,90 +292,102 @@ def CPM2(dfa):
 # สร้างกราฟ
 def DRAW(df):
     G = nx.DiGraph()
+    # ระบุโหนด critical path และ START, END
+    critical_nodes = set(critical_path)  # แปลงเป็น set เพื่อการค้นหาที่รวดเร็ว
+    critical_nodes.update(['START', 'END'])  # เพิ่ม START, END
+    labels = {}  # กำหนดค่า labels เป็น dictionary ว่างก่อน
+    # กำหนดสีโหนด
+    node_colors = ['red' if node in critical_nodes else 'lightblue' for node in G.nodes()]
     # เพิ่มโหนดพร้อมระยะเวลา (duration)
     for index, row in df.iterrows():
-      activity = row['Activity']
-      duration = row['Duration']
-      G.add_node(activity, duration=duration)
+        activity = row['Activity']
+        duration = row['Duration']
+        G.add_node(activity, duration=duration)  # ไม่ต้องเพิ่ม LF, EF
 
-  # เพิ่ม edge ตาม Predecessors พร้อมกำหนดน้ำหนัก (duration)
+    # เพิ่ม edge ตาม Predecessors พร้อมกำหนดน้ำหนัก (duration)
     for index, row in df.iterrows():
-      activity = row['Activity']
-      duration = row['Duration']  # ดึง duration ของกิจกรรม
-      if pd.notna(row['Predecessors']):
-        predecessors = row['Predecessors'].split()
-        for predecessor in predecessors:
-            G.add_edge(predecessor, activity, duration=duration)  # กำหนด duration เป็น weight
-    # 4. แสดงกราฟพร้อม Critical Path
-    pos = nx.planar_layout(G)   # ปรับแต่งพารามิเตอร์
+        activity = row['Activity']
+        duration = row['Duration']
+        if pd.notna(row['Predecessors']):
+            predecessors = row['Predecessors'].split()
+            for predecessor in predecessors:
+                G.add_edge(predecessor, activity, duration=duration)
+
+    # ใช้ graphviz_layout เพื่อจัดวางกราฟ
+    pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
 
     # สีโหนด
     node_colors =  ['red' if node in critical_path or node == 'END' else 'lightblue' for node in G.nodes()]
 
     # วาดกราฟ
-    nx.draw(
-    G,
-    pos,
-    with_labels=False,
-    node_color=node_colors,
-    edge_color='gray',
-    arrows=True ,
-    arrowsize=20    
-  )
-    nx.draw_networkx_labels(
-    G,
-    pos,
-    labels = {node: node
-        if node in ('START', 'END')
-        else f"{node} ({G.nodes[node].get('duration', 0)})"
-              for node in G.nodes()
-        }
-  )  # แสดงชื่อโหนดพร้อม duration
-    plt.title("Critical Path in Project")
+    fig, ax = plt.subplots(figsize=(18, 12))
+    nx.draw_networkx_edges(G, pos, edge_color='black', width=1, arrowstyle='simple', arrowsize=20, min_source_margin=25, min_target_margin=25)
+    nx.draw_networkx_nodes(G, pos, node_size=3000, node_color=node_colors, ax=ax)  # ใช้ node_color
+    nx.draw_networkx_labels(G, pos, labels=labels, ax=ax, font_weight="bold", font_color="black", font_size=20)  # เพิ่ม font_size (ปรับตามต้องการ)
+    # แสดงชื่อโหนดและ Duration
+
+    for node in G.nodes():
+        if node in ('START', 'END'):  # ตรวจสอบว่าเป็น START หรือ END
+            labels[node] = node  # กำหนด labels เป็นชื่อโหนดเฉยๆ
+        elif 'duration' in G.nodes[node]:
+            labels[node] = f"{node}\n({G.nodes[node]['duration']})"
+        else:
+            labels[node] = f"{node}\n(N/A)"
+
+
+    nx.draw_networkx_labels(G, pos, labels=labels, ax=ax, font_weight="bold", font_color="black", font_size=20)
+
+    ax.axis('off')
 
 # สร้างกราฟที่ crashing แล้ว
 def DRAW2(df):
     G = nx.DiGraph()
+    # ระบุโหนด critical path และ START, END
+    critical_nodes = set(critical_path)  # แปลงเป็น set เพื่อการค้นหาที่รวดเร็ว
+    critical_nodes.update(['START', 'END'])  # เพิ่ม START, END
+    labels = {}  # กำหนดค่า labels เป็น dictionary ว่างก่อน
+    # กำหนดสีโหนด
+    node_colors = ['red' if node in critical_nodes else 'lightblue' for node in G.nodes()]
     # เพิ่มโหนดพร้อมระยะเวลา (duration)
     for index, row in df.iterrows():
-      activity = row['Activity']
-      duration = row['New crash duration']
-      G.add_node(activity, duration=duration)
+        activity = row['Activity']
+        duration = row['New crash duration']
+        G.add_node(activity, duration=duration)  # ไม่ต้องเพิ่ม LF, EF
 
-  # เพิ่ม edge ตาม Predecessors พร้อมกำหนดน้ำหนัก (duration)
+    # เพิ่ม edge ตาม Predecessors พร้อมกำหนดน้ำหนัก (duration)
     for index, row in df.iterrows():
-      activity = row['Activity']
-      duration = row['New crash duration']  # ดึง duration ของกิจกรรม
-      if pd.notna(row['Predecessors']):
-        predecessors = row['Predecessors'].split()
-        for predecessor in predecessors:
-            G.add_edge(predecessor, activity, duration=duration)  # กำหนด duration เป็น weight
-    # 4. แสดงกราฟพร้อม Critical Path
-    pos = nx.planar_layout(G)   # ปรับแต่งพารามิเตอร์
+        activity = row['Activity']
+        duration = row['New crash duration']
+        if pd.notna(row['Predecessors']):
+            predecessors = row['Predecessors'].split()
+            for predecessor in predecessors:
+                G.add_edge(predecessor, activity, duration=duration)
+
+    # ใช้ graphviz_layout เพื่อจัดวางกราฟ
+    pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
 
     # สีโหนด
     node_colors =  ['red' if node in critical_path or node == 'END' else 'lightblue' for node in G.nodes()]
 
-  # วาดกราฟ
-    nx.draw(
-    G,
-    pos,
-    with_labels=False,
-    node_color=node_colors,
-    edge_color='gray',
-    arrows=True,
-    arrowsize=20
-  )
-    nx.draw_networkx_labels(
-    G,
-    pos,
-    labels = {node: node
-        if node in ('START', 'END')
-        else f"{node} ({G.nodes[node].get('duration', 0)})"
-              for node in G.nodes()
-        }
-  )  # แสดงชื่อโหนดพร้อม duration
-    plt.title("Critical Path in Project")
+    # วาดกราฟ
+    fig, ax = plt.subplots(figsize=(18, 12))
+    nx.draw_networkx_edges(G, pos, edge_color='black', width=1, arrowstyle='simple', arrowsize=20, min_source_margin=25, min_target_margin=25)
+    nx.draw_networkx_nodes(G, pos, node_size=3000, node_color=node_colors, ax=ax)  # ใช้ node_color
+    nx.draw_networkx_labels(G, pos, labels=labels, ax=ax, font_weight="bold", font_color="black", font_size=20)  # เพิ่ม font_size (ปรับตามต้องการ)
+    # แสดงชื่อโหนดและ Duration
+
+    for node in G.nodes():
+        if node in ('START', 'END'):  # ตรวจสอบว่าเป็น START หรือ END
+            labels[node] = node  # กำหนด labels เป็นชื่อโหนดเฉยๆ
+        elif 'duration' in G.nodes[node]:
+            labels[node] = f"{node}\n({G.nodes[node]['duration']})"
+        else:
+            labels[node] = f"{node}\n(N/A)"
+
+
+    nx.draw_networkx_labels(G, pos, labels=labels, ax=ax, font_weight="bold", font_color="black", font_size=20)
+
+    ax.axis('off')
 
 def DEMAND(dm):
   global Crash_time
