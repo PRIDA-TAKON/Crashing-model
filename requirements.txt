@@ -1,4 +1,4 @@
-graphviz==2.46.0
+graphviz==0.20.3
 pygraphviz==1.7
 gradio==4.44.1
 reportlab==3.6.12
