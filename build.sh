@@ -4,7 +4,7 @@
 apt-get update
 
 # ติดตั้ง Graphviz และ dependencies
-sudo apt-get install graphviz
+pip install graphviz
 
 # ติดตั้ง PyGraphviz พร้อมกำหนดเส้นทาง
 pip install git+https://github.com/pygraphviz/pygraphviz.git 
