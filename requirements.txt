@@ -1,5 +1,6 @@
-graphviz==0.20.3
-pygraphviz==1.7
+graphviz==0.20.1
+pygraphviz
+pytest  # Add your test dependencies here
 gradio==4.44.1
 reportlab==3.6.12
 PyPDF2==3.0.1
