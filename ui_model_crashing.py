@@ -315,7 +315,7 @@ def DRAW(df):
                 G.add_edge(predecessor, activity, duration=duration)
 
     # ใช้ graphviz_layout เพื่อจัดวางกราฟ
-    pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
+    pos = nx.kamada_kawai_layout(G)
 
     # สีโหนด
     node_colors =  ['red' if node in critical_path or node == 'END' else 'lightblue' for node in G.nodes()]
@@ -365,7 +365,7 @@ def DRAW2(df):
                 G.add_edge(predecessor, activity, duration=duration)
 
     # ใช้ graphviz_layout เพื่อจัดวางกราฟ
-    pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
+    pos = nx.kamada_kawai_layout(G)
 
     # สีโหนด
     node_colors =  ['red' if node in critical_path or node == 'END' else 'lightblue' for node in G.nodes()]
