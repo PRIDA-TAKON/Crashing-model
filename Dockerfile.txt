@@ -1,14 +1,19 @@
-FROM python:3.9-slim-buster
+# ใช้ base image Python
+FROM python:3.11-slim
 
-   RUN apt-get update && apt-get install -y \
-       graphviz \
-       graphviz-dev \
-       pkg-config
+# อัปเดต apt-get และติดตั้ง Graphviz พร้อม dependencies
+RUN apt-get update && apt-get install -y graphviz graphviz-dev
 
-   RUN pip install --no-cache-dir pygraphviz gradio reportlab==3.6.12 PyPDF2==3.0.1 pandas networkx matplotlib
+# ติดตั้ง Python dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-   COPY . /app
+# ติดตั้ง pygraphviz จาก GitHub
+RUN pip install git+https://github.com/pygraphviz/pygraphviz.git
 
-   WORKDIR /app
+# คัดลอกโค้ดโปรเจกต์
+COPY . .
 
-   CMD ["python", "ui_model_crashing.py"]  # แทน app.py ด้วยชื่อไฟล์หลัก
+# ระบุคำสั่งเริ่มต้น
+CMD ["python", "ui_model_crashing.py"]
+
