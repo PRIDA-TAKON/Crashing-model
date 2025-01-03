@@ -1,19 +1,2 @@
-# ใช้ base image Python
-FROM python:3.10.16-slim
 
-# อัปเดต apt-get และติดตั้ง Graphviz พร้อม dependencies
-RUN apt-get update && apt-get install -y graphviz graphviz-dev
-
-# ติดตั้ง Python dependencies
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-# ติดตั้ง pygraphviz จาก GitHub
-RUN pip install git+https://github.com/pygraphviz/pygraphviz.git
-
-# คัดลอกโค้ดโปรเจกต์
-COPY . .
-
-# ระบุคำสั่งเริ่มต้น
-CMD ["python", "ui_model_crashing.py"]
 
