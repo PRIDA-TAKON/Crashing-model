@@ -1,10 +1,1 @@
-services:
-  - type: web
-    name: crashing-model
-    env: python
-    plan: free
-    buildCommand: bash build.sh
-    startCommand: ui_model_crashing.py
-    envVars:
-      - key: PORT
-        value: 8000
+
