@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # อัปเดต apt-get และติดตั้ง Graphviz
-apt-get update && apt-get install -y graphviz
+apt-get update && apt-get install -y graphviz graphviz-dev
 
 # ติดตั้ง pygraphviz จาก GitHub
 pip install pygraphviz
