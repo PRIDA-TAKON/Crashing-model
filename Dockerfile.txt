@@ -1,0 +1,14 @@
+FROM python:3.9-slim-buster
+
+   RUN apt-get update && apt-get install -y \
+       graphviz \
+       graphviz-dev \
+       pkg-config
+
+   RUN pip install --no-cache-dir pygraphviz gradio reportlab==3.6.12 PyPDF2==3.0.1 pandas networkx matplotlib
+
+   COPY . /app
+
+   WORKDIR /app
+
+   CMD ["python", "ui_model_crashing.py"]  # แทน app.py ด้วยชื่อไฟล์หลัก
