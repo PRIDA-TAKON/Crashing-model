@@ -1,5 +1,5 @@
 # ใช้ base image Python
-FROM python:3.11-slim
+FROM python:3.10.16-slim
 
 # อัปเดต apt-get และติดตั้ง Graphviz พร้อม dependencies
 RUN apt-get update && apt-get install -y graphviz graphviz-dev
